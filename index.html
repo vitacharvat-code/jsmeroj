@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>jsmeroj s.r.o.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bai+Jamjuree:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- HEADER / LOGO -->
+  <header class="site-header">
+    <div class="logo">jsmeroj</div>
+  </header>
+
+  <!-- SLIDER SECTION -->
+  <section class="slider-section" id="slider-section">
+    <div class="slider-track" id="sliderTrack">
+
+      <div class="slide" data-index="0">
+        <div class="slide-video-wrap">
+          <div class="yt-player" data-vid="dQw4w9WgXcQ"></div>
+          <div class="slide-overlay"></div>
+        </div>
+        <div class="slide-caption">
+          <span class="caption-client">Gymshark</span>
+          <span class="caption-year">2024</span>
+          <p class="caption-desc">Brand campaign – launch video pro novou kolekci zimní sezóny</p>
+        </div>
+      </div>
+
+      <div class="slide" data-index="1">
+        <div class="slide-video-wrap">
+          <div class="yt-player" data-vid="dQw4w9WgXcQ"></div>
+          <div class="slide-overlay"></div>
+        </div>
+        <div class="slide-caption">
+          <span class="caption-client">Clay</span>
+          <span class="caption-year">2023</span>
+          <p class="caption-desc">Produktový explainer – SaaS platforma pro revenue týmy</p>
+        </div>
+      </div>
+
+      <div class="slide" data-index="2">
+        <div class="slide-video-wrap">
+          <div class="yt-player" data-vid="dQw4w9WgXcQ"></div>
+          <div class="slide-overlay"></div>
+        </div>
+        <div class="slide-caption">
+          <span class="caption-client">Další klient</span>
+          <span class="caption-year">2024</span>
+          <p class="caption-desc">Popis projektu – krátký výstižný popis videa nebo kampaně</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Navigation dots -->
+    <div class="slider-dots" id="sliderDots"></div>
+
+    <!-- Arrow buttons -->
+    <button class="slider-arrow slider-arrow--prev" id="prevBtn" aria-label="Předchozí">&#8592;</button>
+    <button class="slider-arrow slider-arrow--next" id="nextBtn" aria-label="Další">&#8594;</button>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section class="contact-section" id="contact">
+    <div class="contact-inner">
+      <h2 class="contact-heading">Pojďme spolupracovat</h2>
+      <a href="mailto:info@jsmeroj.cz" class="contact-email">info@jsmeroj.cz</a>
+    </div>
+  </section>
+
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script src="main.js"></script>
+</body>
+</html>
