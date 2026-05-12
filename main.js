@@ -49,7 +49,7 @@
     dotsEl.appendChild(dot);
   });
 
-  // ── Circular distance ───────────────────────────────────────────
+  // ── Helpers ─────────────────────────────────────────────────────
   function wrappedDist(i) {
     let d = i - current;
     if (d > n / 2) d -= n;
@@ -57,44 +57,35 @@
     return d;
   }
 
-  // ── 3D transform per position ───────────────────────────────────
-  // Cards are arranged on an arc: active faces viewer straight-on,
-  // neighbours are rotated inward and pushed back in Z.
+  // perspective() in the transform keeps iframes renderable
+  // (parent-level `perspective` property breaks iframes in 3D context)
   function computeTransform(pos) {
-    const sw = slides[0].getBoundingClientRect().width || 780;
+    const sw = slides[0].getBoundingClientRect().width || 760;
     const abs = Math.abs(pos);
     const sign = Math.sign(pos) || 1;
+    const P = 'perspective(1100px)';
 
-    if (abs === 0) {
-      return { tx: 0,            tz: 0,    ry: 0,           scale: 1,    opacity: 1,    z: 10 };
-    }
-    if (abs === 1) {
-      return { tx: sw * 0.64 * sign, tz: -170, ry: -40 * sign, scale: 0.66, opacity: 0.72, z: 7  };
-    }
-    if (abs === 2) {
-      return { tx: sw * 1.10 * sign, tz: -320, ry: -60 * sign, scale: 0.46, opacity: 0.32, z: 4  };
-    }
-    return   { tx: sw * 1.55 * sign, tz: -450, ry: -72 * sign, scale: 0.3,  opacity: 0,    z: 1  };
+    if (abs === 0) return { t: 'translateX(0px) scale(1)',                                              opacity: 1,    z: 10 };
+    if (abs === 1) return { t: `translateX(${sw * 0.63 * sign}px) ${P} rotateY(${-38 * sign}deg) scale(0.74)`, opacity: 0.78, z: 7  };
+    if (abs === 2) return { t: `translateX(${sw * 1.09 * sign}px) ${P} rotateY(${-58 * sign}deg) scale(0.52)`, opacity: 0.38, z: 4  };
+    return             { t: `translateX(${sw * 1.55 * sign}px) ${P} rotateY(${-70 * sign}deg) scale(0.34)`, opacity: 0,    z: 1  };
   }
 
   // ── Apply positions ─────────────────────────────────────────────
   function updatePositions(animated = true) {
     slides.forEach((slide, i) => {
-      const { tx, tz, ry, scale, opacity, z } = computeTransform(wrappedDist(i));
-
+      const { t, opacity, z } = computeTransform(wrappedDist(i));
       slide.style.transition = animated
         ? 'transform 0.75s cubic-bezier(0.76, 0, 0.24, 1), opacity 0.75s ease'
         : 'none';
-      slide.style.transform = `translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) scale(${scale})`;
+      slide.style.transform = t;
       slide.style.opacity = opacity;
       slide.style.zIndex = z;
       slide.classList.toggle('is-active', i === current);
     });
-
     Array.from(dotsEl.children).forEach((dot, i) =>
       dot.classList.toggle('is-active', i === current)
     );
-
     syncVideos();
   }
 
@@ -107,7 +98,6 @@
     setTimeout(() => { isAnimating = false; }, 800);
   }
 
-  // Click a side card to focus it
   slides.forEach((slide, i) => {
     slide.addEventListener('click', () => { if (i !== current) goTo(i); });
   });
@@ -120,9 +110,8 @@
     if (e.key === 'ArrowRight') goTo(current + 1);
   });
 
-  // ── Touch / swipe ───────────────────────────────────────────────
-  let touchStartX = 0;
-  let touchDeltaX = 0;
+  // ── Touch ───────────────────────────────────────────────────────
+  let touchStartX = 0, touchDeltaX = 0;
 
   track.addEventListener('touchstart', (e) => {
     touchStartX = e.touches[0].clientX;
@@ -134,13 +123,11 @@
   }, { passive: true });
 
   track.addEventListener('touchend', () => {
-    if (touchDeltaX < -50)      goTo(current + 1);
-    else if (touchDeltaX > 50)  goTo(current - 1);
+    if (touchDeltaX < -50)     goTo(current + 1);
+    else if (touchDeltaX > 50) goTo(current - 1);
   });
 
-  // ── Resize ──────────────────────────────────────────────────────
   window.addEventListener('resize', () => updatePositions(false));
 
-  // ── Init ────────────────────────────────────────────────────────
   requestAnimationFrame(() => updatePositions(false));
 })();
