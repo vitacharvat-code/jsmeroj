@@ -82,17 +82,32 @@ body {
 }
 
 @keyframes roiI {
-  0%, 35%  { opacity: 1; transform: translateY(0); }
-  42%      { opacity: 0; transform: translateY(-6px); }
-  90%      { opacity: 0; transform: translateY(6px); }
-  100%     { opacity: 1; transform: translateY(0); }
+  0%, 22%   { opacity: 1; transform: translateY(0) translateX(0); }
+  /* třes před odchodem */
+  24%       { animation-timing-function: linear; transform: translateY(0) translateX(-3px); }
+  26%       { animation-timing-function: linear; transform: translateY(0) translateX(3px); }
+  28%       { animation-timing-function: linear; transform: translateY(0) translateX(-2.5px); }
+  30%       { animation-timing-function: linear; transform: translateY(0) translateX(2.5px); }
+  32%       { animation-timing-function: linear; transform: translateY(0) translateX(-1.5px); }
+  34%       { animation-timing-function: linear; transform: translateY(0) translateX(1px); }
+  36%       { opacity: 1; transform: translateY(0) translateX(0); }
+  43%       { opacity: 0; transform: translateY(-7px); }
+  90%       { opacity: 0; transform: translateY(7px); }
+  100%      { opacity: 1; transform: translateY(0) translateX(0); }
 }
 
 @keyframes roiJ {
-  0%, 38%  { opacity: 0; transform: translateY(6px); }
-  45%, 83% { opacity: 1; transform: translateY(0); }
-  90%      { opacity: 0; transform: translateY(-6px); }
-  100%     { opacity: 0; transform: translateY(-6px); }
+  0%, 38%   { opacity: 0; transform: translateY(7px); }
+  45%, 76%  { opacity: 1; transform: translateY(0) translateX(0); }
+  /* třes před odchodem */
+  78%       { animation-timing-function: linear; transform: translateY(0) translateX(-3px); }
+  80%       { animation-timing-function: linear; transform: translateY(0) translateX(3px); }
+  82%       { animation-timing-function: linear; transform: translateY(0) translateX(-2.5px); }
+  84%       { animation-timing-function: linear; transform: translateY(0) translateX(2.5px); }
+  86%       { animation-timing-function: linear; transform: translateY(0) translateX(-1px); }
+  88%       { opacity: 1; transform: translateY(0) translateX(0); }
+  93%       { opacity: 0; transform: translateY(-7px); }
+  100%      { opacity: 0; transform: translateY(-7px); }
 }
 
 /* ── SLIDER ────────────────────────────────── */
