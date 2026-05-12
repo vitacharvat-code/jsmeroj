@@ -37,6 +37,47 @@ body {
   display: block;
 }
 
+.claim {
+  margin-top: 14px;
+  font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+  text-align: center;
+}
+
+.claim-roi {
+  display: inline-block;
+  position: relative;
+}
+
+.roi-i {
+  display: inline-block;
+  animation: roiI 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.roi-j {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  animation: roiJ 5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes roiI {
+  0%, 35%  { opacity: 1; transform: translateY(0); }
+  42%      { opacity: 0; transform: translateY(-6px); }
+  90%      { opacity: 0; transform: translateY(6px); }
+  100%     { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes roiJ {
+  0%, 38%  { opacity: 0; transform: translateY(6px); }
+  45%, 83% { opacity: 1; transform: translateY(0); }
+  90%      { opacity: 0; transform: translateY(-6px); }
+  100%     { opacity: 0; transform: translateY(-6px); }
+}
+
 /* ── SLIDER ────────────────────────────────── */
 .slider-section {
   position: relative;
