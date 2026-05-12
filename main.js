@@ -60,7 +60,7 @@
   // perspective() in the transform keeps iframes renderable
   // (parent-level `perspective` property breaks iframes in 3D context)
   function computeTransform(pos) {
-    const sw = slides[0].getBoundingClientRect().width || 760;
+    const sw = slides[0].offsetWidth || 760; // offsetWidth ignores CSS transforms (unlike getBoundingClientRect)
     const abs = Math.abs(pos);
     const sign = Math.sign(pos) || 1;
     const P = 'perspective(1100px)';
