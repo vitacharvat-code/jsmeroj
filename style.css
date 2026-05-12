@@ -7,18 +7,13 @@
 :root {
   --bg: #0a0a0a;
   --fg: #f0f0ee;
-  --accent: #f0f0ee;
   --muted: #666;
   --font: 'Bai Jamjuree', sans-serif;
-  --slide-w: min(72vw, 900px);
-  --slide-h: min(45vw, 560px);
-  --gap: 40px;
-  --peek: calc((100vw - var(--slide-w)) / 2);
+  --slide-w: min(60vw, 780px);
+  --slide-h: calc(var(--slide-w) * 0.625);
 }
 
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   background: var(--bg);
@@ -33,7 +28,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 52px 40px 40px;
+  padding: 52px 40px 48px;
 }
 
 .logo {
@@ -43,66 +38,62 @@ body {
   text-transform: uppercase;
 }
 
-/* ── SLIDER SECTION ────────────────────────── */
+/* ── SLIDER ────────────────────────────────── */
 .slider-section {
   position: relative;
   width: 100%;
-  padding-bottom: 80px;
   overflow: hidden;
+  perspective: 1400px;
+  perspective-origin: 50% 38%;
 }
 
 .slider-track {
-  display: flex;
-  gap: var(--gap);
-  padding: 0 var(--peek);
-  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1);
-  will-change: transform;
-  align-items: center;
+  position: relative;
+  width: var(--slide-w);
+  /* video height + gap + caption + breathing */
+  height: calc(var(--slide-h) + 130px);
+  margin: 0 auto;
 }
 
 /* ── SLIDES ────────────────────────────────── */
 .slide {
-  flex: 0 0 var(--slide-w);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  transition: transform 0.7s cubic-bezier(0.76, 0, 0.24, 1),
-              opacity 0.7s ease;
+  gap: 24px;
+  transform-origin: center center;
+  transition: transform 0.75s cubic-bezier(0.76, 0, 0.24, 1),
+              opacity 0.75s ease;
+  will-change: transform, opacity;
+  cursor: pointer;
 }
 
-.slide:not(.is-active) {
-  transform: scale(0.88);
-  opacity: 0.4;
-}
-
-.slide.is-active {
-  transform: scale(1);
-  opacity: 1;
-}
+.slide.is-active { cursor: default; }
 
 .slide-video-wrap {
   position: relative;
   width: 100%;
   aspect-ratio: 16 / 10;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
   background: #111;
-  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.75);
 }
 
 .slide-video-wrap video,
-.slide-video-wrap iframe,
 .slide-video-wrap .yt-player {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
   border: none;
 }
 
-/* YT iframe injected inside .yt-player — scale to cover 16:10 container with 16:9 video */
+/* YT iframe injected inside .yt-player – scale to cover 16:10 with 16:9 */
 .yt-player iframe {
   position: absolute;
   top: 0;
@@ -116,13 +107,14 @@ body {
 .slide-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 50%,
-    rgba(0, 0, 0, 0.35) 100%
-  );
+  background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.35) 100%);
   pointer-events: none;
   border-radius: inherit;
+  transition: opacity 0.5s ease;
+}
+
+.slide:not(.is-active) .slide-overlay {
+  opacity: 0;
 }
 
 /* ── CAPTION ───────────────────────────────── */
@@ -133,24 +125,26 @@ body {
   gap: 6px 16px;
   padding: 0 4px;
   opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.5s ease 0.2s, transform 0.5s ease 0.2s;
+  transform: translateY(8px);
+  transition: opacity 0.45s ease 0.25s, transform 0.45s ease 0.25s;
+  pointer-events: none;
 }
 
 .slide.is-active .slide-caption {
   opacity: 1;
   transform: translateY(0);
+  pointer-events: auto;
 }
 
 .caption-client {
-  font-size: clamp(0.95rem, 1.4vw, 1.15rem);
+  font-size: clamp(0.9rem, 1.3vw, 1.1rem);
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
 }
 
 .caption-year {
-  font-size: clamp(0.75rem, 1vw, 0.85rem);
+  font-size: clamp(0.72rem, 1vw, 0.82rem);
   font-weight: 400;
   color: var(--muted);
   letter-spacing: 0.04em;
@@ -158,12 +152,11 @@ body {
 
 .caption-desc {
   flex: 0 0 100%;
-  font-size: clamp(0.8rem, 1.1vw, 0.92rem);
+  font-size: clamp(0.78rem, 1.05vw, 0.9rem);
   font-weight: 300;
   color: #999;
-  line-height: 1.6;
-  letter-spacing: 0.01em;
-  max-width: 560px;
+  line-height: 1.65;
+  max-width: 540px;
 }
 
 /* ── ARROWS ────────────────────────────────── */
@@ -172,23 +165,23 @@ body {
   top: calc(var(--slide-h) / 2);
   transform: translateY(-50%);
   background: none;
-  border: 1px solid rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.14);
   color: var(--fg);
-  width: 48px;
-  height: 48px;
+  width: 46px;
+  height: 46px;
   border-radius: 50%;
-  font-size: 1.1rem;
+  font-size: 1rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: background 0.2s, border-color 0.2s;
-  z-index: 10;
+  z-index: 20;
 }
 
 .slider-arrow:hover {
   background: rgba(255,255,255,0.08);
-  border-color: rgba(255,255,255,0.35);
+  border-color: rgba(255,255,255,0.32);
 }
 
 .slider-arrow--prev { left: 20px; }
@@ -199,7 +192,7 @@ body {
   display: flex;
   justify-content: center;
   gap: 8px;
-  margin-top: 40px;
+  padding: 32px 0 72px;
 }
 
 .dot {
@@ -208,6 +201,7 @@ body {
   border-radius: 50%;
   background: var(--muted);
   cursor: pointer;
+  border: none;
   transition: background 0.3s, transform 0.3s;
 }
 
@@ -218,7 +212,7 @@ body {
 
 /* ── CONTACT ───────────────────────────────── */
 .contact-section {
-  padding: 100px 40px 80px;
+  padding: 80px 40px 80px;
   display: flex;
   justify-content: center;
 }
@@ -246,23 +240,12 @@ body {
   transition: color 0.2s;
 }
 
-.contact-email:hover {
-  color: var(--fg);
-}
+.contact-email:hover { color: var(--fg); }
 
 /* ── MOBILE ────────────────────────────────── */
 @media (max-width: 700px) {
-  :root {
-    --slide-w: 82vw;
-    --slide-h: 52vw;
-    --gap: 20px;
-    --peek: 9vw;
-  }
-
-  .slider-arrow--prev { left: 8px; }
-  .slider-arrow--next { right: 8px; }
-
-  .site-header {
-    padding: 36px 24px 28px;
-  }
+  :root { --slide-w: 84vw; }
+  .slider-arrow--prev { left: 6px; }
+  .slider-arrow--next { right: 6px; }
+  .site-header { padding: 36px 24px 28px; }
 }
